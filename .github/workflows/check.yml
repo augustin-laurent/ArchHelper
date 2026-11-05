@@ -1,0 +1,31 @@
+name: Checks
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  python:
+    runs-on: ubuntu-24.04
+    container: archlinux:base
+    steps:
+      - run: pacman -Syu --noconfirm --needed git python archinstall python-pytest python-pytest-asyncio
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - name: Backend, packaging and guard tests
+        run: |
+          PYTHONPATH=installer python -m pytest -q installer/tests tests
+          bash -n install.sh v8 scripts/bootstrap-guest.sh scripts/build-release-inside-arch.sh
+          python -m compileall -q scripts installer/v8_installer
+  interface:
+    runs-on: ubuntu-24.04
+    container: archlinux:base
+    steps:
+      - run: pacman -Syu --noconfirm --needed git go gcc
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - name: Interface checks
+        working-directory: installer/tui
+        run: |
+          CGO_ENABLED=1 go test -race ./...
+          go vet ./...
+          CGO_ENABLED=0 go build -buildvcs=false -trimpath -o archhelper-install .

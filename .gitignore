@@ -1,0 +1,7 @@
+/work/
+/dist/
+__pycache__/
+.pytest_cache/
+*.pyc
+*.pkg.tar.*
+.DS_Store

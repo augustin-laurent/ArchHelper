@@ -1,0 +1,38 @@
+name: Build installer preview
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - installer/**
+      - scripts/**
+      - packages/**
+      - config/**
+      - sources.lock.json
+      - install.sh
+      - .github/workflows/release.yml
+permissions:
+  contents: read
+concurrency:
+  group: arch-installer-preview-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+      - name: Build in a disposable Arch container
+        run: |
+          mkdir -p dist
+          docker pull archlinux:base
+          docker image inspect archlinux:base > dist/builder-image.json
+          docker run --rm --mount type=bind,src="$PWD",dst=/input,readonly \
+            --mount type=bind,src="$PWD/dist",dst=/output \
+            archlinux:base bash /input/scripts/build-release-inside-arch.sh
+      - name: Keep preview artifacts for qualification
+        uses: actions/upload-artifact@v4
+        with:
+          name: arch-installer-preview-x86_64
+          path: dist/
+          if-no-files-found: error

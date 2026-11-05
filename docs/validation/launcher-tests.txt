@@ -1,0 +1,56 @@
+test_download_checksum_and_atomic_failure (test_build.BuildTest) ... ok
+test_fetch_exact_tag_and_reject_dirty_sources (test_build.BuildTest) ... hint: Using 'master' as the name for the initial branch. This default branch name
+hint: will change to "main" in Git 3.0. To configure the initial branch name
+hint: to use in all of your new repositories, which will suppress this warning,
+hint: call:
+hint:
+hint: 	git config --global init.defaultBranch <name>
+hint:
+hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+hint: 'development'. The just-created branch can be renamed via this command:
+hint:
+hint: 	git branch -m <name>
+hint:
+hint: Disable this message with "git config set advice.defaultBranchName false"
+hint: Using 'master' as the name for the initial branch. This default branch name
+hint: will change to "main" in Git 3.0. To configure the initial branch name
+hint: to use in all of your new repositories, which will suppress this warning,
+hint: call:
+hint:
+hint: 	git config --global init.defaultBranch <name>
+hint:
+hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+hint: 'development'. The just-created branch can be renamed via this command:
+hint:
+hint: 	git branch -m <name>
+hint:
+hint: Disable this message with "git config set advice.defaultBranchName false"
+From /var/folders/tg/tp3v9hnn2vq4n3c_z09m6wk80000gn/T/tmp503w9bsy/upstream
+ * branch            c8ef91697aaed6df5e7d27afa303be8ceb7bb46a -> FETCH_HEAD
+HEAD is now at c8ef916 fixture
+From /var/folders/tg/tp3v9hnn2vq4n3c_z09m6wk80000gn/T/tmp503w9bsy/upstream
+ * [new tag]         v-test     -> v-test
+work/upstream @ c8ef91697aaed6df5e7d27afa303be8ceb7bb46a
+ok
+test_native_root_invocation_is_refused_before_side_effects (test_build.BuildTest) ... ok
+test_provenance_records_the_actual_iso_without_claiming_boot_acceptance (test_build.BuildTest) ... hint: Using 'master' as the name for the initial branch. This default branch name
+hint: will change to "main" in Git 3.0. To configure the initial branch name
+hint: to use in all of your new repositories, which will suppress this warning,
+hint: call:
+hint:
+hint: 	git config --global init.defaultBranch <name>
+hint:
+hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+hint: 'development'. The just-created branch can be renamed via this command:
+hint:
+hint: 	git branch -m <name>
+hint:
+hint: Disable this message with "git config set advice.defaultBranchName false"
+ok
+test_readonly_sources_and_only_writable_output_mount (test_build.BuildTest) ... ok
+test_source_paths_cannot_escape_work (test_build.BuildTest) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.607s
+
+OK

@@ -1,0 +1,45 @@
+{
+  "package": "v8-quickshell",
+  "pkgver": "0.3.2.r7.g2b4501a",
+  "pkgrel": 1,
+  "provides": "quickshell=0.3.2.r7.g2b4501a",
+  "conflicts": [
+    "quickshell",
+    "quickshell-git"
+  ],
+  "upstream_commit": "2b4501a282689792b62e94f3fb30d8f512324fe6",
+  "recipe_source_commit": "bed2ea5a48400c02228c86dd4da9bc75487a24ee",
+  "source_pin_verification": "Git commit pin; VCS source checksum SKIP as in upstream recipe; signature not locally verified",
+  "patch_sha256": "23b65d205d825f11a1cd8501acbc6e50250d09a6ce607e2ff8b3cf5d438bd0ce",
+  "rebuild_on": [
+    "qt6-base",
+    "qt6-declarative",
+    "qt6-wayland"
+  ],
+  "historical_recipe_rebuilt_against": {
+    "x86_64": {
+      "qt6-base": "6.12.0-3",
+      "qt6-declarative": "6.12.0-1",
+      "qt6-wayland": "6.12.0-1"
+    },
+    "aarch64": {
+      "qt6-base": "6.12.0-3",
+      "qt6-declarative": "6.12.0-1",
+      "qt6-wayland": "6.12.0-1"
+    }
+  },
+  "checks": {
+    "patch_apply_check": "passed against pinned local upstream checkout without applying",
+    "PKGBUILD_syntax": "passed with bash -n; recipe not sourced or executed",
+    "build": "not run",
+    "qml_runtime": "not run",
+    "vm": "not run"
+  },
+  "scope": "Patch to Quickshell QML loading; no patch to Qt6 source; no dependency on Omarchy repository",
+  "compatibility_hook_sha256": "d02da428ae72ca6bec2bf1be224674b39aaf7ddbff03d8c09a2f1eb81bd1cbdb",
+  "compatibility_hook_targets": [
+    "qt6-base",
+    "qt6-declarative",
+    "qt6-wayland"
+  ]
+}

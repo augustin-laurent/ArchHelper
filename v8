@@ -1,0 +1,50 @@
+#!/bin/bash
+set -euo pipefail
+cd -- "$(dirname -- "${BASH_SOURCE[0]}")"
+repo=$PWD
+usage() { echo 'Usage : ./v8 check | fetch | build | clean | stop'; }
+case ${1:-build} in check|fetch|build|clean|stop) action=${1:-build} ;; *) usage >&2; exit 2 ;; esac
+if [[ $action == fetch ]]; then exec python3 scripts/prepare.py; fi
+[[ $(uname -s) == Linux && $(uname -m) == x86_64 ]] || { echo 'Construction : PC Linux x86_64 requis.' >&2; exit 1; }
+[[ $(id -u) != 0 ]] || { echo 'Lancer sans sudo ; les privilèges restent dans la VM.' >&2; exit 1; }
+export LIMA_HOME=$repo/work/lima
+lima=$repo/work/builder/lima/bin/limactl
+if [[ $action == stop ]]; then [[ ! -x $lima ]] || "$lima" stop v8-builder; exit 0; fi
+for tool in python3 git curl tar gzip ssh qemu-system-x86_64 qemu-img; do
+  command -v "$tool" >/dev/null || { echo "Dépendance hôte absente : $tool" >&2; exit 1; }
+done
+[[ -r /dev/kvm && -w /dev/kvm ]] || { echo 'Accès utilisateur à /dev/kvm requis ; voir README.md.' >&2; exit 1; }
+if [[ $action == build || $action == check ]]; then
+python3 - <<'PY'
+from pathlib import Path
+import shutil
+root = Path.cwd()
+if len(str(root / 'work/lima/v8-builder/ha.sock')) > 100:
+    raise SystemExit('Chemin trop long pour les sockets VM : déplacer le dépôt, par exemple dans ~/v8.')
+if shutil.disk_usage(root).free < 45 * 1024 ** 3:
+    raise SystemExit('Au moins 45 Gio libres requis avant la construction.')
+PY
+fi
+[[ $action != check ]] || { echo 'Hôte Linux x86_64 et KVM : OK'; exit 0; }
+if [[ $action == build ]]; then
+  python3 scripts/prepare.py
+  mkdir -p work/builder/lima
+  tar -xzf work/builder/lima-linux.tar.gz -C work/builder/lima
+fi
+[[ -x $lima ]] || { echo 'Aucun constructeur ; lancer ./v8 build.' >&2; exit 1; }
+"$lima" validate work/builder/v8-builder.yaml
+stop_builder() { "$lima" stop v8-builder; }
+trap stop_builder EXIT
+if [[ -d $LIMA_HOME/v8-builder ]]; then
+  "$lima" start --tty=false v8-builder
+else
+  "$lima" start --tty=false --name=v8-builder work/builder/v8-builder.yaml
+fi
+if [[ $action == clean ]]; then
+  "$lima" shell v8-builder -- sudo bash -c 'test "$(cat /etc/v8-build-vm)" = v8-isolated-builder-v1 && rm -rf /srv/v8-arch-x86/build'
+  exit 0
+fi
+mkdir -p dist
+set -o pipefail
+"$lima" shell v8-builder -- sudo bash /input/scripts/bootstrap-guest.sh 2>&1 | tee dist/build.log
+printf '\nArchives ArchHelper, sources et checksums : %s/dist/\n' "$repo"

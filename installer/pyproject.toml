@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "v8-installer"
+version = "0.2.0"
+description = "Arch Wayland JSONL backend and pinned archinstall adapter"
+requires-python = ">=3.14,<3.15"
+dependencies = ["archinstall==4.5"]
+
+[project.scripts]
+archhelper-engine = "v8_installer.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["v8_installer*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+testpaths = ["tests"]
+
+[tool.setuptools.package-data]
+v8_installer = ["nvidia-gpus.json", "nvidia-580.ids"]

@@ -1,0 +1,7 @@
+Prepared /var/folders/tg/tp3v9hnn2vq4n3c_z09m6wk80000gn/T/tmpd58rwrmb/profile; 81 direct package requests; 139 disabled helper entrypoints
+Prepared /var/folders/tg/tp3v9hnn2vq4n3c_z09m6wk80000gn/T/tmp1t5jeh7v/profile; 79 direct package requests; 139 disabled helper entrypoints
+.
+----------------------------------------------------------------------
+Ran 1 test in 2.233s
+
+OK

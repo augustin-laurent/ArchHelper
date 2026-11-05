@@ -1,0 +1,17 @@
+requirement,state,implementation,evidence,remaining
+R01,implemented,payload manifest and architecture-specific pacman configuration,ISO config and build-inputs-preview2.json,signed project distribution channel
+R02,native builder implemented,v8 and scripts plus iso x86_64 profile,46 installer tests and profile assertions,native Linux ISO build and install qualification
+R03,ARM64 VM implemented,prepare-profile.py and architecture validation,native install journals and UEFI boot logs,physical ARM platform profiles
+R04,systemd-boot implemented,boot.py,UKI and BLS boot logs,GRUB and Limine
+R05,implemented,plan.py and kernel verification,one linux-aarch64 on ARM booted targets and linux-only x86 profile,x86 kernel choice qualification
+R06,blocked in preview,plan.py and firmware preflight,validation tests,Secure Boot signing and enrollment
+R07,implemented,adapter.py DiskEncryption and boot.py sd-encrypt,real LUKS2 format mount install and boot,matrix of every option combination
+R08,blocked in preview,plan.py and UI capability message,validation tests,TPM2 hardware qualification and recovery
+R09,implemented,boot.py mkinitcpio hooks and cmdline,boot logs with Plymouth and text unlock,broader GPU and keyboard validation
+R10,three modes implemented,plan.py disks.py adapter.py ui.py,five real disk cases and Textual tests,complete TUI install/reboot in each mode and expert premount
+R11,partial,install.py Snapper and boot.py generations,snapshot initial and pre/post plus kernel transaction,bootable root snapshots and recovery workflow
+R12,partial,configure_firewall offline IPv6 policy,UFW active on booted targets and unit test,Docker published-port policy and network matrix
+R13,implemented,services and systemd-ssh-generator masks,booted-target checks,broader image/platform regression matrix
+R14,not integrated,explicit preview limitation,README and UI,no paru build/review frontend shipped
+R15,implemented on ARM64 preview,checked desktop payload and existing runtime packages,installed desktop screenshot and active session,full independent desktop package split and x86
+R16,initial state only,schema.json system_schema 1,native configuration phase,versioned system/user migration engine
